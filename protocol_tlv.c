@@ -83,7 +83,8 @@ int protocol_data_packet(uint8_t *buf, uint16_t len, protocol_data_t *protocol_d
         }
         
         default:
-            break;
+            printf("unsupported protocol_data->id = %#x\n", protocol_data->id);
+            return ret;
     }
 
     // 为协议格式数据申请内存
@@ -95,7 +96,9 @@ int protocol_data_packet(uint8_t *buf, uint16_t len, protocol_data_t *protocol_d
     }
 
     // 填充协议数据各字段
-    p_protocol_format->head = PROTOCOL_HEAD;
+    // 帧头按字节写入，保证线上顺序为 0x55 0xAA，不受主机字节序影响
+    ((uint8_t *)&p_protocol_format->head)[0] = (PROTOCOL_HEAD >> 8) & 0xFF;
+    ((uint8_t *)&p_protocol_format->head)[1] = PROTOCOL_HEAD & 0xFF;
     p_protocol_format->id = protocol_data->id;
     p_protocol_format->type = TLV_TYPE_BYTE_ARR;
     p_protocol_format->length = value_len;
