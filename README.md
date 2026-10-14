@@ -5,6 +5,8 @@
 
 TLV（Tag、Length、Value）格式数据的优化版本，极简轻量的数据传输格式，可以以此为基础自定义数据格式，附带 CRC 检验。
 
+- 使用介绍：[分享一种灵活性很高的协议格式（附代码例子）](https://mp.weixin.qq.com/s/z0Qr2D5yCpEiBPenYWrdOw)；
+
 ## LOG
 
 - [26/10/14]：修复原代码库中帧头字节序问题；
